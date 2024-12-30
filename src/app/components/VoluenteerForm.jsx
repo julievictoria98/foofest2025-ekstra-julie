@@ -40,10 +40,12 @@ function volunteerForm() {
             <div className="flex flex-col">
               <label for="email">Email</label>
               <input
-                id="email"
                 type="email"
+                id="email"
                 name="email"
                 placeholder="e.g. john@doe.com"
+                pattern="[a-z0-9._+\-]+@[a-z0-9]+\.[a-z]{2,}"
+                title="Please inter a valid email"
                 required
               ></input>
             </div>
