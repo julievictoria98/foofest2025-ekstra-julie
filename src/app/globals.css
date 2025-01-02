@@ -205,17 +205,17 @@ label {
 }
 
 input:not(:placeholder-shown):valid {
-  outline-color: green;
+  outline: 2px solid green !important;
 }
 
 input:not(:placeholder-shown):invalid {
-  outline-color: red;
+  outline: 2px solid red !important;
 }
 
 input:focus:invalid {
-  outline-color: orange;
+  outline: 2px solid orange !important;
 }
 
-input:invalid {
-  outline-color: red;
-}
+/* input:invalid {
+  outline: 2px solid red !important;
+} */
