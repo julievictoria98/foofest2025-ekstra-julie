@@ -16,7 +16,6 @@ function volunteerForm() {
       last_name: formData.get("last_name"),
       email: formData.get("email"),
     };
-    validateForm();
     postVoluenteerInfo(data);
   }
 
@@ -49,6 +48,16 @@ function volunteerForm() {
     }
   };
 
+  const focusMode = (e) => {
+    const inputElement = e.target;
+    const inputName = inputElement.name;
+
+    setErrors((prevErros) => ({
+      ...prevErros,
+      [inputName]: "",
+    }));
+  };
+
   return (
     <section className="bg-primary p-8 -mx-mobile text-main-1 max-w-2xl sm:w-3/4 lg:-mx-desktop sm:self-center rounded-rounded-reg">
       <form action={sendData} className="flex flex-col gap-8 ">
@@ -60,6 +69,7 @@ function volunteerForm() {
             <div className="flex flex-col gap-1">
               <label for="first_name">First Name</label>
               <input
+                onFocus={focusMode}
                 onBlur={validateForm}
                 type="text"
                 name="first_name"
@@ -75,6 +85,7 @@ function volunteerForm() {
               <label for="last_name">Last Name</label>
               <input
                 onBlur={validateForm}
+                onFocus={focusMode}
                 type="text"
                 name="last_name"
                 id="last_name"
@@ -89,6 +100,7 @@ function volunteerForm() {
               <label for="email">Email</label>
               <input
                 onBlur={validateForm}
+                onFocus={focusMode}
                 type="email"
                 id="email"
                 name="email"
@@ -102,8 +114,9 @@ function volunteerForm() {
             <div className="flex flex-col">
               <label for="phone_number">Phone Number</label>
               <input
-                type="tel"
-                inputMode="decimal"
+                type="number"
+                inputMode="numeric"
+                pattern="[0-9]{8}"
                 placeholder="XXXX3095"
                 id="phone_number"
                 maxLength="8"
