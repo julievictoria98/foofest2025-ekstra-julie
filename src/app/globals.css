@@ -209,13 +209,9 @@ input:not(:placeholder-shown):valid {
 }
 
 input:not(:placeholder-shown):invalid {
-  outline: 2px solid red !important;
+  outline: 2px solid red;
 }
 
 input:focus:invalid {
   outline: 2px solid orange !important;
 }
-
-/* input:invalid {
-  outline: 2px solid red !important;
-} */

@@ -2,7 +2,6 @@
 import { postVoluenteerInfo } from "../api";
 import { useState } from "react";
 function volunteerForm() {
-  // const [emailError, setEmailError] = useState(false);
   const [errors, setErrors] = useState({
     first_name: "",
     last_name: "",
@@ -19,7 +18,7 @@ function volunteerForm() {
     postVoluenteerInfo(data);
   }
 
-  const validateForm = (e) => {
+  const validateInput = (e) => {
     const inputElement = e.target;
     const inputName = inputElement.name;
 
@@ -31,14 +30,18 @@ function volunteerForm() {
           ? `Invalid ${inputName.replace("_", " ")}`
           : `Invalid ${inputName}.`,
       }));
-    } else if ((inputName === "email") & !inputElement.value.includes("@")) {
+    } else if (inputName === "email" && !inputElement.value.includes("@")) {
       inputElement.style.outline = "2px solid red";
       setErrors({ email: "Invalid email" });
-    } else if ((inputName === "email") & !inputElement.value.includes(".")) {
+    } else if (inputName === "email" && !inputElement.value.includes(".")) {
       inputElement.style.outline = "2px solid red";
       setErrors({ email: "Invalid email" });
-    } else if ((inputName === "first_name") & (inputElement === "")) {
+    } else if (inputName === "first_name" && inputElement.value === "") {
       setErrors({ first_name: "Invalid first name" });
+    } else if (inputName === "phone_number" && isNaN(inputElement.value)) {
+      setErrors({ phone_number: "Invalid phonenumber - must be a number." });
+    } else if (inputName === "phone_number" && inputElement.value.length < 8) {
+      setErrors({ phone_number: "Invalid phonenumber - must be 8 digits." });
     } else {
       inputElement.style.outline = "2px solid green";
       setErrors((prevErros) => ({
@@ -70,7 +73,7 @@ function volunteerForm() {
               <label for="first_name">First Name</label>
               <input
                 onFocus={focusMode}
-                onBlur={validateForm}
+                onBlur={validateInput}
                 type="text"
                 name="first_name"
                 placeholder="John"
@@ -84,7 +87,7 @@ function volunteerForm() {
             <div className="flex flex-col">
               <label for="last_name">Last Name</label>
               <input
-                onBlur={validateForm}
+                onBlur={validateInput}
                 onFocus={focusMode}
                 type="text"
                 name="last_name"
@@ -99,7 +102,7 @@ function volunteerForm() {
             <div className="flex flex-col">
               <label for="email">Email</label>
               <input
-                onBlur={validateForm}
+                onBlur={validateInput}
                 onFocus={focusMode}
                 type="email"
                 id="email"
@@ -114,15 +117,21 @@ function volunteerForm() {
             <div className="flex flex-col">
               <label for="phone_number">Phone Number</label>
               <input
-                type="number"
-                inputMode="numeric"
-                pattern="[0-9]{8}"
+                onBlur={validateInput}
+                onFocus={focusMode}
+                type="tel"
+                inputMode="decimal"
                 placeholder="XXXX3095"
                 id="phone_number"
+                name="phone_number"
+                pattern="[0-9]{8}"
                 maxLength="8"
                 minLength="8"
                 required
               ></input>
+              <p className=" h-1 text-xs text-feedback-error">
+                {errors.phone_number}
+              </p>
             </div>
           </div>
         </fieldset>
