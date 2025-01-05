@@ -150,6 +150,7 @@ label {
   transform: scale(1.02);
   transition: all 0.2s ease-in;
 }
+
 .button:hover {
   box-shadow: 8px 8px 0px #3a140b;
   transform: scale(1.02);

@@ -42,6 +42,12 @@ function volunteerForm() {
       setErrors({ phone_number: "Invalid phonenumber - must be a number." });
     } else if (inputName === "phone_number" && inputElement.value.length < 8) {
       setErrors({ phone_number: "Invalid phonenumber - must be 8 digits." });
+    } else if (inputName === "first_name" && !isNaN(inputElement.value)) {
+      setErrors({ first_name: "Invalid first name, cannot contain numbers" });
+      inputElement.style.outline = "2px solid red";
+    } else if (inputName === "last_name" && !isNaN(inputElement.value)) {
+      setErrors({ last_name: "Invalid last name, cannot contain numbers" });
+      inputElement.style.outline = "2px solid red";
     } else {
       inputElement.style.outline = "2px solid green";
       setErrors((prevErros) => ({
@@ -78,6 +84,7 @@ function volunteerForm() {
                 name="first_name"
                 placeholder="John"
                 id="first_name"
+                pattern="[a-zA-Z]{1,}"
                 required
               ></input>
               <p className=" h-1 mb-1 text-xs text-feedback-error">
@@ -93,6 +100,7 @@ function volunteerForm() {
                 name="last_name"
                 id="last_name"
                 placeholder="Doe"
+                pattern="[a-zA-Z]{1,}"
                 required
               ></input>
               <p className=" h-1 text-xs text-feedback-error">
