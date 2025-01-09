@@ -24,30 +24,52 @@ function volunteerForm() {
 
     if (inputElement.value === "") {
       inputElement.style.outline = "2px solid red";
-      setErrors((prevErros) => ({
-        ...prevErros,
+      setErrors((prevErrors) => ({
+        ...prevErrors,
         [inputName]: inputName.includes("_")
           ? `Invalid ${inputName.replace("_", " ")}`
           : `Invalid ${inputName}.`,
       }));
-    } else if (inputName === "email" && !inputElement.value.includes("@")) {
-      inputElement.style.outline = "2px solid red";
-      setErrors({ email: "Invalid email" });
-    } else if (inputName === "email" && !inputElement.value.includes(".")) {
-      inputElement.style.outline = "2px solid red";
-      setErrors({ email: "Invalid email" });
-    } else if (inputName === "first_name" && inputElement.value === "") {
-      setErrors({ first_name: "Invalid first name" });
-    } else if (inputName === "phone_number" && isNaN(inputElement.value)) {
-      setErrors({ phone_number: "Invalid phonenumber - must be a number." });
-    } else if (inputName === "phone_number" && inputElement.value.length < 8) {
-      setErrors({ phone_number: "Invalid phonenumber - must be 8 digits." });
-    } else if (inputName === "first_name" && !isNaN(inputElement.value)) {
-      setErrors({ first_name: "Invalid first name, cannot contain numbers" });
-      inputElement.style.outline = "2px solid red";
-    } else if (inputName === "last_name" && !isNaN(inputElement.value)) {
-      setErrors({ last_name: "Invalid last name, cannot contain numbers" });
-      inputElement.style.outline = "2px solid red";
+    } else if (
+      inputName === "email" &&
+      (!inputElement.value.includes(".") ||
+        inputElement.value.split(".").pop().length < 2)
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "Invalid email",
+      }));
+    } else if (
+      inputName === "phone_number" &&
+      (isNaN(inputElement.value) || inputElement.value.length < 8)
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone_number: isNaN(inputElement.value)
+          ? "Invalid phone number - must be a number."
+          : "Invalid phone number - must be 8 digits.",
+      }));
+    } else if (
+      (inputName === "first_name" || inputName === "last_name") &&
+      !isNaN(inputElement.value)
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [inputName]: `Invalid ${inputName.replace(
+          "_",
+          " "
+        )}, cannot contain numbers.`,
+      }));
+    } else if (inputName === "first_name" && inputElement.value.length < 3) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        first_name: `You've entered a ${inputElement.value.length}-letter name. If this is correct, carry on!`,
+      }));
+    } else if (inputName === "last_name" && inputElement.value.length < 3) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        last_name: `You've entered a ${inputElement.value.length}-letter name. If this is correct, carry on!`,
+      }));
     } else {
       inputElement.style.outline = "2px solid green";
       setErrors((prevErros) => ({
@@ -86,8 +108,17 @@ function volunteerForm() {
                 id="first_name"
                 pattern="[a-zA-Z]{1,}"
                 required
+                aria-describedby="first_name_error"
               ></input>
-              <p className=" h-1 mb-1 text-xs text-feedback-error">
+              <p
+                id="first_name_error"
+                className={`h-1 mb-1 text-xs ${
+                  errors.first_name ===
+                  " ! You've entered a one-letter name. If this is correct, carry on"
+                    ? "text-blue-800"
+                    : "text-feedback-error"
+                }`}
+              >
                 {errors.first_name}
               </p>
             </div>
@@ -102,8 +133,12 @@ function volunteerForm() {
                 placeholder="Doe"
                 pattern="[a-zA-Z]{1,}"
                 required
+                aria-describedby="last_name_error"
               ></input>
-              <p className=" h-1 text-xs text-feedback-error">
+              <p
+                id="last_name_error"
+                className=" h-1 text-xs text-feedback-error"
+              >
                 {errors.last_name}
               </p>
             </div>
@@ -117,10 +152,12 @@ function volunteerForm() {
                 name="email"
                 placeholder="e.g. john@doe.com"
                 pattern="[a-zA-Z0-9._+\-]+@[a-z0-9]+\.[a-z]{2,}"
-                title="Please inter a valid email"
                 required
+                aria-describedby="email_error"
               ></input>
-              <p className=" h-1 text-xs text-feedback-error">{errors.email}</p>
+              <p id="email_error" className=" h-1 text-xs text-feedback-error">
+                {errors.email}
+              </p>
             </div>
             <div className="flex flex-col">
               <label for="phone_number">Phone Number</label>
@@ -136,8 +173,12 @@ function volunteerForm() {
                 maxLength="8"
                 minLength="8"
                 required
+                aria-describedby="phone_number_error"
               ></input>
-              <p className=" h-1 text-xs text-feedback-error">
+              <p
+                id="phone_number_error"
+                className=" h-1 text-xs text-feedback-error"
+              >
                 {errors.phone_number}
               </p>
             </div>
