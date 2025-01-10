@@ -71,11 +71,11 @@ function volunteerForm() {
         last_name: `You've entered a ${inputElement.value.length}-letter name. If this is correct, carry on!`,
       }));
     } else {
-      inputElement.style.outline = "2px solid green";
-      setErrors((prevErros) => ({
-        ...prevErros,
-        [inputName]: "",
-      }));
+      // inputElement.style.outline = "2px solid green";
+      // setErrors((prevErros) => ({
+      //   ...prevErros,
+      //   [inputName]: "",
+      // }));
     }
   };
 

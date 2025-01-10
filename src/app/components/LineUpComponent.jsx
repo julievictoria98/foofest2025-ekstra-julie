@@ -11,11 +11,10 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 function LineUpComponent() {
   const BASE_URL = `${api}/logos/`;
   const BANDS_URL = `${api}/bands`;
+  let { data, error, isLoading } = useSWR(BANDS_URL, fetcher);
   let [isListAscending, setIsListAscending] = useState(false);
   let [dataThatIsMapping, setDataThatIsMapping] = useState([]);
   let [pickedGenre, setPickedGenre] = useState("");
-
-  let { data, error, isLoading } = useSWR(BANDS_URL, fetcher);
 
   useEffect(() => {
     if (!isLoading) {
@@ -24,7 +23,7 @@ function LineUpComponent() {
   }, [data]);
 
   function handleAscending() {
-    let sortedBands = [];
+    let sortedBands = []; //Behøves ikke hvis data mappes igennem istedet - .sort ændrer også selve data. Jeg elsker dig skat <3 <3 <3
     if (isListAscending === true) {
       sortedBands = data.sort((a, b) => {
         return a.name.localeCompare(b.name);
@@ -37,7 +36,7 @@ function LineUpComponent() {
     setDataThatIsMapping(sortedBands);
     setIsListAscending(!isListAscending);
   }
-  const currentData = dataThatIsMapping.length > 0 ? dataThatIsMapping : data;
+  const currentData = dataThatIsMapping.length > 0 ? dataThatIsMapping : data; //Behøves ikke, hvis vi mapper igennem dataThatIsMapping istedet
 
   if (error) return <div>Error loading schedule: {error.message}</div>;
   if (isLoading) return <div>Loading schedule...</div>;
@@ -54,7 +53,7 @@ function LineUpComponent() {
             id="select-genre"
             onChange={(e) => setPickedGenre(e.target.value)}
           >
-            <option>FILTER BY GENRE</option>
+            <option value="">FILTER BY GENRE</option>
             {genres.map((genre, index) => {
               return (
                 <option value={genre} key={index}>
