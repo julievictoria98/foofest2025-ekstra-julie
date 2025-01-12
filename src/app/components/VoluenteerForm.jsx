@@ -33,7 +33,8 @@ function volunteerForm() {
     } else if (
       inputName === "email" &&
       (!inputElement.value.includes(".") ||
-        inputElement.value.split(".").pop().length < 2)
+        inputElement.value.split(".")[inputElement.value.split(".").length - 1]
+          .length < 2)
     ) {
       setErrors((prevErrors) => ({
         ...prevErrors,
