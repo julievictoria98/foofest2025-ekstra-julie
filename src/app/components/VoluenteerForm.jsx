@@ -70,12 +70,6 @@ function volunteerForm() {
         ...prevErrors,
         last_name: `You've entered a ${inputElement.value.length}-letter name. If this is correct, carry on!`,
       }));
-    } else {
-      // inputElement.style.outline = "2px solid green";
-      // setErrors((prevErros) => ({
-      //   ...prevErros,
-      //   [inputName]: "",
-      // }));
     }
   };
 
@@ -110,15 +104,7 @@ function volunteerForm() {
                 required
                 aria-describedby="first_name_error"
               ></input>
-              <p
-                id="first_name_error"
-                className={`h-1 mb-1 text-xs ${
-                  errors.first_name ===
-                  " ! You've entered a one-letter name. If this is correct, carry on"
-                    ? "text-blue-800"
-                    : "text-feedback-error"
-                }`}
-              >
+              <p id="first_name_error" className="h-1 mb-1 text-xs">
                 {errors.first_name}
               </p>
             </div>
